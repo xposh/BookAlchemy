@@ -15,21 +15,29 @@ db.init_app(app)
 
 @app.route('/')
 def home():
-    # 1. Das Suchwort aus der URL abgreifen (kommt vom HTML-Formular)
+    # 1. Parameter aus der URL abgreifen
     search_query = request.args.get('search')
+    sort_by = request.args.get('sort', 'title') # Standard ist 'title'
 
-    # 2. Basis-Abfrage starten
+    # 2. Basis-Abfrage vorbereiten
     query = Book.query
 
-    # 3. NUR wenn ein Suchwort da ist, wird gefiltert (Das ist Step 5!)
+    # 3. Filter anwenden (Step 5)
     if search_query:
         query = query.filter(Book.title.ilike(f'%{search_query}%'))
 
-    # 4. Am Ende die (gefilterten) Ergebnisse ausführen
+    # 4. Sortierung anwenden (Das fehlt bei dir noch!)
+    if sort_by == 'author':
+        # Join wird benötigt, um auf Author.name zuzugreifen
+        query = query.join(Author).order_by(Author.name)
+    else:
+        # Sortierung nach Buchtitel
+        query = query.order_by(Book.title)
+
+    # 5. Jetzt erst die fertige Query ausführen
     all_books = query.all()
 
     return render_template('home.html', books=all_books)
-
 
 @app.route('/add_author', methods=['GET', 'POST'])
 def add_author():
