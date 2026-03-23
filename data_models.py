@@ -16,16 +16,16 @@ class Author(db.Model):
         return f"Author(id={self.id}, name='{self.name}')"
 
 
-    class Book(db.Model):
-        __tablename__ = 'books'
+class Book(db.Model):
+    __tablename__ = 'books'
 
-        id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-        isbn = db.Column(db.String, unique=True)
-        title = db.Column(db.String, nullable=False)
-        publication_year = db.Column(db.Integer)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    isbn = db.Column(db.String, unique=True)
+    title = db.Column(db.String, nullable=False)
+    publication_year = db.Column(db.Integer)
 
-        # Der Foreign Key (Fremdschlüssel)
-        author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
+    # Der Foreign Key (Fremdschlüssel)
+    author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
 
-        def __str__(self):
-            return f"Book(id={self.id}, title='{self.title}')"
+    def __str__(self):
+        return f"Book(id={self.id}, title='{self.title}')"
