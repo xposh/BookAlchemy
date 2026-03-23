@@ -33,6 +33,14 @@
             <p><strong>Year:</strong> {{ book.publication_year }}</p>
             <p><strong>ISBN:</strong> {{ book.isbn }}</p>
 
+            <p>
+                <a href="/delete_book/{{ book.id }}"
+                   style="color: red; text-decoration: none; font-weight: bold;"
+                   onclick="return confirm('Möchtest du dieses Buch wirklich aus deiner Bibliothek löschen?');">
+                   🗑️ Buch löschen
+                </a>
+            </p>
+
             <div style="clear:both;"></div> </div>
     {% endfor %}
 
