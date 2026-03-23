@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  </head>
-  <body>
+<body>
+  <h1>My Library</h1>
 
-    {% for book in books %}
-    <div> <h3>{{ book.title }}</h3>
+  <p>Sort by: <a href="/?sort=title">Title</a> | <a href="/?sort=author">Author</a></p>
+  <p><a href="/add_author">Add Author</a> | <a href="/add_book">Add Book</a></p>
+
+  <hr>
+
+  {% for book in books %}
+    <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
+      <img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" alt="Cover" style="float:left; margin-right:20px; height:100px;">
+      <h3>{{ book.title }}</h3>
+      <p>Author: {{ book.author.name }}</p>
+      <p>Year: {{ book.publication_year }}</p>
+      <div style="clear:both;"></div>
     </div>
-    {% endfor %}
-
-  </body>
+  {% endfor %}
+</body>
 </html>
