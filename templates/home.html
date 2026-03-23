@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Library</title>
+</head>
 <body>
-  <h1>My Library</h1>
+    <h1>My Library</h1>
 
-  <p>Sort by: <a href="/?sort=title">Title</a> | <a href="/?sort=author">Author</a></p>
-  <p><a href="/add_author">Add Author</a> | <a href="/add_book">Add Book</a></p>
+    <form action="/" method="GET" style="margin-bottom: 20px;">
+      <input type="text" name="search" placeholder="Search for a book title..." value="{{ request.args.get('search', '') }}">
+      <input type="submit" value="Search">
+      <a href="/">Clear Search</a>
+    </form>
 
-  <hr>
+    <p>Sort by: <a href="/?sort=title">Title</a> | <a href="/?sort=author">Author</a></p>
+    <p><a href="/add_author">Add Author</a> | <a href="/add_book">Add Book</a></p>
 
-  {% for book in books %}
-    <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
-      <img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" alt="Cover" style="float:left; margin-right:20px; height:100px;">
-      <h3>{{ book.title }}</h3>
-      <p>Author: {{ book.author.name }}</p>
-      <p>Year: {{ book.publication_year }}</p>
-      <div style="clear:both;"></div>
-    </div>
-  {% endfor %}
+    <hr>
+
+    {% if not books %}
+      <p>😑 No books match your search criteria.</p>
+    {% endif %}
+
+    {% for book in books %}
+        <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+            <img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"
+                 alt="Cover"
+                 style="float:left; margin-right:20px; height:120px; background-color: #eee;">
+
+            <h3>{{ book.title }}</h3>
+            <p><strong>Author:</strong> {{ book.author.name }}</p>
+            <p><strong>Year:</strong> {{ book.publication_year }}</p>
+            <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+
+            <div style="clear:both;"></div> </div>
+    {% endfor %}
+
 </body>
 </html>

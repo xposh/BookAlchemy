@@ -15,7 +15,19 @@ db.init_app(app)
 
 @app.route('/')
 def home():
-    all_books = Book.query.all()
+    # 1. Das Suchwort aus der URL abgreifen (kommt vom HTML-Formular)
+    search_query = request.args.get('search')
+
+    # 2. Basis-Abfrage starten
+    query = Book.query
+
+    # 3. NUR wenn ein Suchwort da ist, wird gefiltert (Das ist Step 5!)
+    if search_query:
+        query = query.filter(Book.title.ilike(f'%{search_query}%'))
+
+    # 4. Am Ende die (gefilterten) Ergebnisse ausführen
+    all_books = query.all()
+
     return render_template('home.html', books=all_books)
 
 
